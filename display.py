@@ -2,7 +2,7 @@
 
 from PIL import Image, ImageDraw, ImageFont
 
-font_choice = 7
+font_choice = 4
 if font_choice == 1:
     project_font = "font/Architects_Daughter/ArchitectsDaughter-Regular.ttf"
 elif font_choice == 2:

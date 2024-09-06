@@ -7,9 +7,6 @@ import locale
 locale.setlocale(locale.LC_TIME, '')
 
 
-# lat = "48.8110548"
-# lon = "2.3"
-
 class Weather:
     def __init__(self, latitude, longitude, api_id):
         self.latitude = latitude
@@ -17,7 +14,8 @@ class Weather:
         self.api_key = api_id
         self.prevision = [0, [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]]
         self.data = requests.get(
-            f"https://api.openweathermap.org/data/2.5/onecall?lat={self.latitude}&lon={self.longitude}&lang=fr&appid={self.api_key}").json()
+            f"https://api.openweathermap.org/data/3.0/onecall?lat={self.latitude}&lon={self.longitude}&units=metric&lang=de&appid={self.api_key}").json()
+        print (self.data)
         self.prevision[0] = self.data["daily"][0]["dt"]
         self.prevision[1][6] = [self.data["daily"][0]["pressure"],
                                 round(self.data["daily"][0]["temp"]["day"] - 273.15, 0)]
@@ -25,7 +23,7 @@ class Weather:
 
     def update(self):
         self.data = requests.get(
-            f"https://api.openweathermap.org/data/2.5/onecall?lat={self.latitude}&lon={self.longitude}&lang=fr&appid={self.api_key}").json()
+            f"https://api.openweathermap.org/data/3.0/onecall?lat={self.latitude}&lon={self.longitude}&units=metric?lang=de&appid={self.api_key}").json()
         return self.data
 
     def current_time(self):
@@ -51,19 +49,19 @@ class Weather:
         if deg < 30 or deg >= 330:
             direction = "N"
         elif 30 <= deg < 60:
-            direction = "NE"
+            direction = "NO"
         elif 60 <= deg < 120:
-            direction = "E"
+            direction = "O"
         elif 120 <= deg < 150:
-            direction = "SE"
+            direction = "SO"
         elif 150 <= deg < 210:
             direction = "S"
         elif 210 <= deg < 240:
-            direction = "SO"
+            direction = "SW"
         elif 240 <= deg < 300:
-            direction = "O"
+            direction = "W"
         elif 300 <= deg < 330:
-            direction = "NO"
+            direction = "NW"
         else:
             direction = "N/A"
         return "{:.0f}".format(self.data["current"]["wind_speed"] * 3.6) + "km/h", direction
@@ -125,36 +123,36 @@ class Weather:
 
     def weather_description(self, id):
         icon = "sun"
-        weather_detail = "Beau temps"
+        weather_detail = "Sonnig"
         if id // 100 != 8:
             id = id // 100
             if id == 2:
                 icon = "thunder"
-                weather_detail = "Orage"
+                weather_detail = "Gewitter"
             elif id == 3:
                 icon = "drizzle"
-                weather_detail = "Bruine"
+                weather_detail = "Nieselregen"
             elif id == 5:
                 icon = "rain"
-                weather_detail = "Pluie"
+                weather_detail = "Regen"
             elif id == 6:
                 icon = "snow"
-                weather_detail = "Neige"
+                weather_detail = "Schnee"
             elif id == 7:
                 icon = "atm"
-                weather_detail = "Brouillard"
+                weather_detail = "Nebel"
             else:
-                weather_detail = "Erreur"
+                weather_detail = "Fehler"
         else:
             if id == 801:
                 icon = "25_clouds"
-                weather_detail = "Peu nuageux"
+                weather_detail = "Heiter"
             elif id == 802:
                 icon = "50_clouds"
-                weather_detail = "Nuageux"
+                weather_detail = "Wolkig"
             elif id == 803 or id == 804:
                 icon = "100_clouds"
-                weather_detail = "Couvert"
+                weather_detail = "Bedeckt"
 
         return icon, weather_detail
 
@@ -174,7 +172,7 @@ class Pollution:
 
     def update(self, lattitude, longitude, api_id):
         self.data = requests.get(
-            f"http://api.openweathermap.org/data/2.5/air_pollution?lat={lattitude}&lon={longitude}&appid={api_id}").json()
+            f"http://api.openweathermap.org/data/3.0/air_pollution?lat={lattitude}&lon={longitude}&appid={api_id}").json()
         return self.data
 
     def co(self):
