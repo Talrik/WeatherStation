@@ -63,14 +63,14 @@ def main():
         # FRAME
         display.draw_black.text((20, 150), "Regen in der nächsten Stunde - " + time.strftime("%H:%M", time.localtime()), fill=0,
                                 font=font16)  # NEXT HOUR RAIN LABEL
-        display.draw_black.rectangle((20, 175, 320, 195), fill=255, outline=0, width=1)  # Red rectangle = rain
+        display.draw_black.rectangle((20, 175, 320, 195), fill="red", outline=0, width=1)  # Red rectangle = rain
 
         # LABEL
         for i in range(len(data_rain)):
             display.draw_black.line((20 + i * 50, 175, 20 + i * 50, 195), fill=0, width=1)
             display.draw_black.text((20 + i * 50, 195), data_rain[i][0], fill=0, font=font16)
             if data_rain[i][1] != 0:
-                display.draw_red.rectangle((20 + i * 50, 175, 20 + (i + 1) * 50, 195), fill=0)
+                display.draw_red.rectangle((20 + i * 50, 175, 20 + (i + 1) * 50, 195), fill="red")
     except:
         pass
 
@@ -203,7 +203,7 @@ def main():
         display.draw_circle(x[i], map_resize(pression[i], min(pression), max(pression), maxi, mini), 3, "r")
     for i in range(len(x) - 1):  # UPDATE LINE
         display.draw_red.line((x[i], map_resize(pression[i], min(pression), max(pression), maxi, mini), x[i + 1],
-                               map_resize(pression[i + 1], min(pression), max(pression), maxi, mini)), fill=0,
+                               map_resize(pression[i + 1], min(pression), max(pression), maxi, mini)), fill="red",
                               width=2)
     # TEMPERATURE
     display.draw_black.line((430, mini, 430, maxi + 20), fill=0, width=1)  # GRAPH AXIS
@@ -219,7 +219,7 @@ def main():
         display.draw_red.line((x[i] + 400, map_resize(temperature[i], min(temperature), max(temperature), maxi, mini),
                                x[i + 1] + 400,
                                map_resize(temperature[i + 1], min(temperature), max(temperature), maxi, mini)),
-                              fill=0, width=2)
+                              fill="red", width=2)
 
     ###################################################################################################################
     # Abfall
